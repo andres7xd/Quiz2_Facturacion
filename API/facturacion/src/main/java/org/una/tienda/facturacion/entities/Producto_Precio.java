@@ -21,20 +21,26 @@ import lombok.Setter;
  *
  * @author rache
  */
-public class Producto_Existencia {
-//    @ManyToOne
+public class Producto_Precio {
+//      @ManyToOne
 //    @JoinColumn(name = "Producto_id")
 //    private Producto producto;
-    
+
     @Id
 
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 
     private Long id;
-    
-    @Column(name = "cantidad")
 
-    private double cantidad;
+    @Column(name = "descuento_maximo")
+
+    private double descuento_maximo;
+    @Column(name = "descuento_promocional")
+
+    private double descuento_promocional;
+    @Column(name = "precio_colones")
+
+    private double precio_colones;
 
     @Column
 
@@ -63,7 +69,7 @@ public class Producto_Existencia {
     public void prePersist() {
 
         estado = 1;
-        
+
         fechaRegistro = new Date();
 
         fechaModificacion = new Date();
