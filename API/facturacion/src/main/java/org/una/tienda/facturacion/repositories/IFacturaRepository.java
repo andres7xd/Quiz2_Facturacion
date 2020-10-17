@@ -4,15 +4,13 @@
  * and open the template in the editor.
  */
 package org.una.tienda.facturacion.repositories;
-
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.una.tienda.facturacion.entities.Factura_Detalles;
-import org.una.tienda.facturacion.entities.Producto_Existencia;
+import org.una.tienda.facturacion.entities.Factura;
 
 /**
  *
- * @author rache
+ * @author Luis
  */
-public interface IProducto_ExistenciaRepository extends JpaRepository<Producto_Existencia, Long> {
+public interface IFacturaRepository extends JpaRepository<Factura, Long>{
     
 }

@@ -5,10 +5,13 @@
  */
 package org.una.tienda.facturacion.services;
 
+import org.springframework.stereotype.Service;
+
 /**
  *
  * @author rache
  */
-public class Producto_ExitenciaServiceImplementation {
+@Service
+public class Producto_ExitenciaServiceImplementation implements IProducto_ExistenciaService{
     
 }

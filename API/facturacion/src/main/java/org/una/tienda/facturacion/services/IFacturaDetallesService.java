@@ -9,6 +9,6 @@ package org.una.tienda.facturacion.services;
  *
  * @author Luis
  */
-public interface FacturaService {
+public interface IFacturaDetallesService {
     
 }

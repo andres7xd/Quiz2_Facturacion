@@ -9,9 +9,9 @@ import org.springframework.stereotype.Service;
 
 /**
  *
- * @author Luis
+ * @author Andres
  */
 @Service
-public class FacturaServiceImplementation implements IFacturaService{
+public class ClienteServiceImplementation implements IClienteService {
     
 }

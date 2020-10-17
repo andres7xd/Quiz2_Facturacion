@@ -5,13 +5,10 @@
  */
 package org.una.tienda.facturacion.services;
 
-import org.springframework.stereotype.Service;
-
 /**
  *
  * @author Luis
  */
-@Service
-public class FacturaServiceImplementation implements IFacturaService{
+public interface IFacturaService {
     
 }

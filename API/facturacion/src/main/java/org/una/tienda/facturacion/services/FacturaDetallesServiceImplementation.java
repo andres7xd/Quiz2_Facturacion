@@ -12,6 +12,6 @@ import org.springframework.stereotype.Service;
  * @author Luis
  */
 @Service
-public class FacturaDetallesServiceImplementation implements FacturaDetallesService{
+public class FacturaDetallesServiceImplementation implements IFacturaDetallesService{
     
 }
