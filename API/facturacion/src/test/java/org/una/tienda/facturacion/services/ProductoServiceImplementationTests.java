@@ -7,6 +7,7 @@ package org.una.tienda.facturacion.services;
 
 import java.util.Optional;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.fail;
 import org.junit.jupiter.api.BeforeEach;
@@ -15,13 +16,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.una.tienda.facturacion.dto.ProductoDTO;
 
-
-
 /**
  *
  * @author rache
  */
-
 @SpringBootTest
 public class ProductoServiceImplementationTests {
 
@@ -42,7 +40,7 @@ public class ProductoServiceImplementationTests {
 
     @Test
     public void sePuedeCrearUnProductoCorrectamente() {
- 
+
         productoEjemplo = productoService.create(productoEjemplo);
 
         Optional<ProductoDTO> productoEncontrado = productoService.findById(productoEjemplo.getIdproducto());
@@ -55,9 +53,9 @@ public class ProductoServiceImplementationTests {
             fail("No se encontro la información en la BD");
         }
     }
-    
-     public void sePuedeModificarUnProductoCorrectamente() {
- 
+
+    public void sePuedeModificarUnProductoCorrectamente() {
+
         Optional<ProductoDTO> product = productoService.update(productoEjemplo, productoEjemplo.getIdproducto());
 
         Optional<ProductoDTO> productoEncontrado = productoService.findById(productoEjemplo.getIdproducto());
@@ -70,24 +68,24 @@ public class ProductoServiceImplementationTests {
             fail("No se encontro la información en la BD");
         }
     }
-     
-//     @Test
-//    public void sePuedeEliminarUnProductoCorrectamente(){
-//
-//        productoService.delete(productoEjemplo.getIdproducto());
-//
-//        Optional<ProductoDTO> productoEncontrado = productoService.findById(productoEjemplo.getIdproducto());
-//
-//        if (productoEncontrado.isPresent()) {
-//            ProductoDTO producto = productoEncontrado.get();
-//            assertEquals(productoEjemplo.getIdproducto(), producto.getIdproducto());
-//
-//        } else {
-//            fail("No se encontro la información en la BD");
-//        }
-//    }
 
-    
+    @Test
+    public void sePuedeEliminarUnProductoCorrectamente() {
+
+        productoEjemplo = productoService.create(productoEjemplo);
+
+        productoService.delete(productoEjemplo.getIdproducto());
+
+        Optional<ProductoDTO> productoEncontrado = productoService.findById(productoEjemplo.getIdproducto());
+
+        if (productoEncontrado != null) {
+            fail("El producto no fue eliminado");
+        } else {
+            Assertions.assertTrue(true);
+            productoEjemplo = null;
+        }
+    }
+
     @AfterEach
     public void tearDown() {
         if (productoEjemplo != null) {
@@ -98,4 +96,3 @@ public class ProductoServiceImplementationTests {
     }
 
 }
-

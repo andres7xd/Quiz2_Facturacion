@@ -5,10 +5,20 @@
  */
 package org.una.tienda.facturacion.services;
 
+import java.util.Optional;
+import org.una.tienda.facturacion.dto.ClienteDTO;
+
 /**
  *
  * @author Andres
  */
 public interface IClienteService {
-    
+
+    public Optional<ClienteDTO> findById(Long id);
+
+    public ClienteDTO create(ClienteDTO clienteDTO);
+
+    public void delete(Long id);
+
+    public Optional<ClienteDTO> update(ClienteDTO clienteDTO, Long id);
 }
