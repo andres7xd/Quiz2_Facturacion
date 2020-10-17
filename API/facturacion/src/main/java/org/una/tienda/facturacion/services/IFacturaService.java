@@ -5,10 +5,20 @@
  */
 package org.una.tienda.facturacion.services;
 
+import java.util.Optional;
+import org.una.tienda.facturacion.dto.FacturaDTO;
+
 /**
  *
  * @author Luis
  */
 public interface IFacturaService {
     
+    public Optional<FacturaDTO> findById(Long id);
+
+    public FacturaDTO create(FacturaDTO facturaDTO);
+
+    public void delete(Long id);
+
+    public Optional<FacturaDTO> update(FacturaDTO facturaDTO, Long id);
 }

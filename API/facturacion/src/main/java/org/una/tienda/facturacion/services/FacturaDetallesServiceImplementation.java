@@ -5,7 +5,14 @@
  */
 package org.una.tienda.facturacion.services;
 
+import java.util.Optional;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.una.tienda.facturacion.dto.Factura_DetallesDTO;
+import org.una.tienda.facturacion.entities.Factura_Detalles;
+import org.una.tienda.facturacion.repositories.IFacturaDetallesRepository;
+import org.una.tienda.facturacion.util.MapperUtils;
 
 /**
  *
@@ -14,4 +21,47 @@ import org.springframework.stereotype.Service;
 @Service
 public class FacturaDetallesServiceImplementation implements IFacturaDetallesService{
     
+    @Autowired
+    private IFacturaDetallesRepository facturaDetallesRepository;
+
+    private Optional<Factura_DetallesDTO> oneToDto(Optional<Factura_Detalles> one) {
+        if (one.isPresent()) {
+            Factura_DetallesDTO factura_DetallesDTO = MapperUtils.DtoFromEntity(one.get(),   Factura_DetallesDTO.class);
+            return Optional.ofNullable(factura_DetallesDTO);
+        } else {
+            return null;
+        }
+    }
+    @Override
+    @Transactional(readOnly = true)
+    public Optional<Factura_DetallesDTO> findById(Long id) {
+        return oneToDto(facturaDetallesRepository.findById(id));
+
+    }
+
+    @Override
+    @Transactional
+    public Factura_DetallesDTO create(Factura_DetallesDTO factura_DetallesDTO) {
+        Factura_Detalles factura_Detalles = MapperUtils.EntityFromDto(factura_DetallesDTO, Factura_Detalles.class);
+        factura_Detalles = facturaDetallesRepository.save(factura_Detalles);
+        return MapperUtils.DtoFromEntity(factura_Detalles, Factura_DetallesDTO.class);
+    }
+    
+    @Override
+    @Transactional
+    public Optional<Factura_DetallesDTO> update(Factura_DetallesDTO factura_DetallesDTO, Long id) {
+        if (facturaDetallesRepository.findById(id).isPresent()) {
+            Factura_Detalles factura_Detalles = MapperUtils.EntityFromDto(factura_DetallesDTO, Factura_Detalles.class);
+            factura_Detalles = facturaDetallesRepository.save(factura_Detalles);
+            return Optional.ofNullable(MapperUtils.DtoFromEntity(factura_Detalles, Factura_DetallesDTO.class));
+        } else {
+            return null;
+        }
+    }
+
+    @Override
+    @Transactional
+    public void delete(Long id) {
+        facturaDetallesRepository.deleteById(id);
+    }
 }
