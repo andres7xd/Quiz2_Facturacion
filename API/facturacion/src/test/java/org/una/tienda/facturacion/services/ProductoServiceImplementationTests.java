@@ -55,7 +55,39 @@ public class ProductoServiceImplementationTests {
             fail("No se encontro la información en la BD");
         }
     }
+    
+     public void sePuedeModificarUnProductoCorrectamente() {
+ 
+        Optional<ProductoDTO> product = productoService.update(productoEjemplo, productoEjemplo.getIdproducto());
 
+        Optional<ProductoDTO> productoEncontrado = productoService.findById(productoEjemplo.getIdproducto());
+
+        if (productoEncontrado.isPresent()) {
+            ProductoDTO producto = productoEncontrado.get();
+            assertEquals(productoEjemplo.getIdproducto(), producto.getIdproducto());
+
+        } else {
+            fail("No se encontro la información en la BD");
+        }
+    }
+     
+//     @Test
+//    public void sePuedeEliminarUnProductoCorrectamente(){
+//
+//        productoService.delete(productoEjemplo.getIdproducto());
+//
+//        Optional<ProductoDTO> productoEncontrado = productoService.findById(productoEjemplo.getIdproducto());
+//
+//        if (productoEncontrado.isPresent()) {
+//            ProductoDTO producto = productoEncontrado.get();
+//            assertEquals(productoEjemplo.getIdproducto(), producto.getIdproducto());
+//
+//        } else {
+//            fail("No se encontro la información en la BD");
+//        }
+//    }
+
+    
     @AfterEach
     public void tearDown() {
         if (productoEjemplo != null) {
