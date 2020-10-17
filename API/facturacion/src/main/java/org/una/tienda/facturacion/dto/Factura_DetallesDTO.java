@@ -28,5 +28,5 @@ public class Factura_DetallesDTO {
     private Date fecha_registro;
     private Date fecha_modificacion;
     private FacturaDTO ut_facturas;
-//    private Factura ut_productos;
+    private ProductoDTO ut_productos;
 }

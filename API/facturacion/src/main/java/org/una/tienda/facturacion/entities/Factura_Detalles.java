@@ -47,9 +47,9 @@ public class Factura_Detalles implements Serializable {
     @JoinColumn(name = "facturas_id")
     private Factura ut_facturas;
     
-//    @ManyToOne
-//    @JoinColumn(name = "productos_id")
-//    private Factura ut_productos;
+    @ManyToOne
+    @JoinColumn(name = "productos_id")
+    private Factura ut_productos;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

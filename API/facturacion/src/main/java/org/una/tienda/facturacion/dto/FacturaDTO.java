@@ -27,5 +27,5 @@ public class FacturaDTO {
     private byte estado;
     private Date fecha_registro;
     private Date fecha_modificacion;
-//    private ClienteDTO cliente;
+    private ClienteDTO ut_clientes;
 }

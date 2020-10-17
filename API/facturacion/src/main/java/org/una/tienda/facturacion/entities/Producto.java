@@ -6,16 +6,17 @@
 package org.una.tienda.facturacion.entities;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
-import javax.persistence.PreUpdate;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -28,75 +29,59 @@ import lombok.ToString;
 
 /**
  *
- * @author rache
+ * @author Andres
  */
 @Entity
-@Table(name = "ut_productos_precios")
+@Table(name = "ut_productos")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class Producto_Precio implements Serializable{
-      @ManyToOne
-    @JoinColumn(name = "Producto_id")
-    private Producto ut_productos;
 
+public class Producto implements Serializable {
+    
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "ut_productos")
+    private List<Producto_Existencia> producto_existencia = new ArrayList<>();
+    
+     @OneToMany(cascade = CascadeType.ALL, mappedBy = "ut_productos")
+    private List<Producto_Precio> producto_precio = new ArrayList<>();
+     
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "ut_productos")
+    private List<Factura_Detalles> factura_detalle = new ArrayList<>();
+   
     @Id
-
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-
-    private Long id;
-
-    @Column(name = "descuento_maximo")
-
-    private double descuento_maximo;
-    @Column(name = "descuento_promocional")
-
-    private double descuento_promocional;
-    @Column(name = "precio_colones")
-
-    private double precio_colones;
-
-    @Column
-
+    private Long idproducto;
+    
+    @Column(name = "descripcion", length = 100)
+    private String descripcion;
+    
+    @Column (name = "estado")
     private byte estado;
-
+   
     @Column(name = "fecha_registro", updatable = false)
-
     @Temporal(TemporalType.DATE)
-
     @Setter(AccessLevel.NONE)
-
-    private Date fechaRegistro;
-
-    @Column(name = "fecha_modificacion")
-
-    @Setter(AccessLevel.NONE)
-
+    private Date fecha_registro;
+    
+    @Column(name = "fecha_modificacion", updatable = false)
     @Temporal(TemporalType.DATE)
-
-    private Date fechaModificacion;
-
+    @Setter(AccessLevel.NONE)
+    private Date fecha_modificacion;
+    
+     @Column(name = "impuesto")
+    private double impuesto;
+    
     private static final long serialVersionUID = 1L;
-
     @PrePersist
 
     public void prePersist() {
 
         estado = 1;
-
-        fechaRegistro = new Date();
-
-        fechaModificacion = new Date();
+        fecha_registro = new Date();
+        fecha_modificacion = new Date();
 
     }
-
-    @PreUpdate
-
-    public void preUpdate() {
-
-        fechaModificacion = new Date();
-
-    }
-
+    
+   
 }

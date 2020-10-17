@@ -13,21 +13,19 @@ import lombok.ToString;
 
 /**
  *
- * @author rache
+ * @author Andres
  */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class Producto_PrecioDTO {
-
-    private Long id;
-    private double descuento_maximo;
-    private double descuento_promocional;
-    private double precio_colones;
-    private byte estado;
-    private Date fechaRegistro;
-    private Date fechaModificacion;
-    private ProductoDTO ut_productos;
-
+public class ProductoDTO {
+   
+   private Long idproducto;
+   private String descripcion;
+   private boolean estado;
+   private Date fecha_Modificacion;
+   private Date fecha_Registro;
+   private double impuesto;
+   
 }

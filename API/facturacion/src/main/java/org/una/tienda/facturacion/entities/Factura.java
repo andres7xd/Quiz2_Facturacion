@@ -5,6 +5,7 @@
  */
 package org.una.tienda.facturacion.entities;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -14,6 +15,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
@@ -42,11 +45,11 @@ import lombok.ToString;
 @NoArgsConstructor
 
 @ToString
-public class Factura {
+public class Factura implements Serializable{
     
-//    @ManyToOne
-//    @JoinColumn(name = "cliente_id")
-//    private Cliente cliente;
+    @ManyToOne
+    @JoinColumn(name = "cliente_id")
+    private Cliente ut_clientes;
     
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "ut_facturas") 
     private List<Factura_Detalles> factura_Detalles = new ArrayList<>();
