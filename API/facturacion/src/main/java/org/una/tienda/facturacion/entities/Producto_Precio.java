@@ -28,7 +28,7 @@ import lombok.ToString;
 
 /**
  *
- * @author rache
+ * @author Andres
  */
 @Entity
 @Table(name = "ut_productos_precios")
@@ -36,46 +36,37 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class Producto_Precio implements Serializable{
-      @ManyToOne
+public class Producto_Precio implements Serializable {
+
+    @ManyToOne
     @JoinColumn(name = "Producto_id")
     private Producto ut_productos;
-
+     
     @Id
-
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-
     private Long id;
 
     @Column(name = "descuento_maximo")
-
     private double descuento_maximo;
+
     @Column(name = "descuento_promocional")
-
     private double descuento_promocional;
-    @Column(name = "precio_colones")
 
-    private double precio_colones;
-
-    @Column
-
+    @Column(name = "estado")
     private byte estado;
 
     @Column(name = "fecha_registro", updatable = false)
-
     @Temporal(TemporalType.DATE)
-
     @Setter(AccessLevel.NONE)
 
     private Date fechaRegistro;
-
     @Column(name = "fecha_modificacion")
-
     @Setter(AccessLevel.NONE)
-
     @Temporal(TemporalType.DATE)
-
     private Date fechaModificacion;
+
+    @Column(name = "precio_colones")
+    private double precio_colones;
 
     private static final long serialVersionUID = 1L;
 
