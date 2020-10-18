@@ -21,7 +21,7 @@ import lombok.ToString;
 @ToString
 public class FacturaDTO {
     
-    private long id;
+    private Long id;
     private int caja;
     private double descuento_general;
     private byte estado;

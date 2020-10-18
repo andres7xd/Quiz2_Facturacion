@@ -7,7 +7,6 @@ package org.una.tienda.facturacion.services;
 
 import java.util.Optional;
 import org.una.tienda.facturacion.dto.Factura_DetallesDTO;
-import org.una.tienda.facturacion.exceptions.ProductoConDescuentoMayorAlPermitidoException;
 
 /**
  *
@@ -17,7 +16,7 @@ public interface IFacturaDetallesService {
     
     public Optional<Factura_DetallesDTO> findById(Long id);
 
-    public Factura_DetallesDTO create(Factura_DetallesDTO factura_DetallesDTO) throws ProductoConDescuentoMayorAlPermitidoException;
+    public Factura_DetallesDTO create(Factura_DetallesDTO factura_DetallesDTO);
 
     public void delete(Long id);
 

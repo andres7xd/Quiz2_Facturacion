@@ -43,7 +43,7 @@ public class Producto_Existencia  implements Serializable{
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id; 
+    private Long id; 
     
     @Column(name = "cantidad")
     private double cantidad;

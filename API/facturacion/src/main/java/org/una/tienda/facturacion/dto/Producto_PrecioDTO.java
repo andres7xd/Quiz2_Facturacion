@@ -21,7 +21,7 @@ import lombok.ToString;
 @ToString
 public class Producto_PrecioDTO {
     
-    private long id;
+    private Long id;
     private double descuento_maximo;
     private double descuento_promocional;
     private byte estado;
