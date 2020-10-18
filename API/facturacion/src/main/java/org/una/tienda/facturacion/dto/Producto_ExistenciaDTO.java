@@ -21,7 +21,7 @@ import lombok.ToString;
 @ToString
 public class Producto_ExistenciaDTO {
     
-    private Long id; 
+    private long id; 
     private double cantidad;
     private byte estado; 
     private Date fechaRegistro; 

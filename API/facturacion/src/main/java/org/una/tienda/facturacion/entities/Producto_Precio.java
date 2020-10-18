@@ -44,7 +44,7 @@ public class Producto_Precio implements Serializable {
      
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private long id;
 
     @Column(name = "descuento_maximo")
     private double descuento_maximo;

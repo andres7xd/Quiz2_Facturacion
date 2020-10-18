@@ -44,7 +44,7 @@ public class Cliente {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idclientes;
+    private long idclientes;
     
     @Column(name = "direccion", length = 100)
     private String direccion;
