@@ -10,7 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.una.tienda.facturacion.dto.FacturaDTO;
+import org.una.tienda.facturacion.dto.Factura_DetallesDTO;
 import org.una.tienda.facturacion.entities.Factura;
+import org.una.tienda.facturacion.entities.Factura_Detalles;
 import org.una.tienda.facturacion.repositories.IFacturaRepository;
 import org.una.tienda.facturacion.util.MapperUtils;
 
@@ -46,6 +48,7 @@ public class FacturaServiceImplementation implements IFacturaService{
         factura = facturaRepository.save(factura);
         return MapperUtils.DtoFromEntity(factura, FacturaDTO.class);
     }
+
     
     @Override
     @Transactional
