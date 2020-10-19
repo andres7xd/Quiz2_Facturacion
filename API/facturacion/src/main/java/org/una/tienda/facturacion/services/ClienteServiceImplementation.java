@@ -13,6 +13,7 @@ import org.una.tienda.facturacion.dto.ClienteDTO;
 import org.una.tienda.facturacion.entities.Cliente;
 import org.una.tienda.facturacion.exceptions.ClienteConDireccionException;
 import org.una.tienda.facturacion.exceptions.ClienteConEmailException;
+import org.una.tienda.facturacion.exceptions.ClienteConEstadoInactivoException;
 import org.una.tienda.facturacion.exceptions.ClienteConTelefonoException;
 import org.una.tienda.facturacion.repositories.IClienteRepository;
 import org.una.tienda.facturacion.util.MapperUtils;
@@ -63,8 +64,12 @@ public class ClienteServiceImplementation implements IClienteService {
 
     @Override
     @Transactional
-    public Optional<ClienteDTO> update(ClienteDTO clienteDTO, Long id) {
+    public Optional<ClienteDTO> update(ClienteDTO clienteDTO, Long id) throws ClienteConEstadoInactivoException{ 
+       
         if (clienteRepository.findById(id).isPresent()) {
+            if(clienteDTO.isEstado()==false){
+            throw new ClienteConEstadoInactivoException("No se puede modificar");
+        }
             Cliente cliente = MapperUtils.EntityFromDto(clienteDTO, Cliente.class);
             cliente = clienteRepository.save(cliente);
             return Optional.ofNullable(MapperUtils.DtoFromEntity(cliente, ClienteDTO.class));

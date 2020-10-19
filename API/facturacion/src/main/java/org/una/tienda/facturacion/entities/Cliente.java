@@ -49,7 +49,7 @@ public class Cliente {
     private String email;
     
     @Column(name = "estado")
-    private byte estado;
+    private boolean estado;
     
     @Column(name = "fecha_registro", updatable = false)
     @Temporal(TemporalType.DATE)
@@ -74,7 +74,7 @@ public class Cliente {
 
     public void prePersist() {
 
-        estado = 1;
+        estado = true;
         fecha_registro = new Date();
         fecha_modificacion = new Date();
 

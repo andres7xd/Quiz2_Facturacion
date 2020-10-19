@@ -12,6 +12,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.una.tienda.facturacion.dto.Factura_DetallesDTO;
 import org.una.tienda.facturacion.dto.Producto_PrecioDTO;
 import org.una.tienda.facturacion.entities.Factura_Detalles;
+import org.una.tienda.facturacion.exceptions.FacturaConCantidadCeroException;
+import org.una.tienda.facturacion.exceptions.FacturaConPrecioCeroException;
 import org.una.tienda.facturacion.exceptions.ProductoConDescuentoMayorAlPermitidoException;
 import org.una.tienda.facturacion.repositories.IFacturaDetallesRepository;
 import org.una.tienda.facturacion.util.MapperUtils;
@@ -47,7 +49,7 @@ public class FacturaDetallesServiceImplementation implements IFacturaDetallesSer
 
     @Override
     @Transactional
-    public Factura_DetallesDTO create(Factura_DetallesDTO facturaDetalle) throws ProductoConDescuentoMayorAlPermitidoException {
+    public Factura_DetallesDTO create(Factura_DetallesDTO facturaDetalle) throws ProductoConDescuentoMayorAlPermitidoException, FacturaConCantidadCeroException, FacturaConPrecioCeroException {
 
         Optional<Producto_PrecioDTO> productoPrecio = productoPrecioService.findById(facturaDetalle.getUt_productos().getIdproducto());
 
@@ -56,6 +58,12 @@ public class FacturaDetallesServiceImplementation implements IFacturaDetallesSer
         }
         if (facturaDetalle.getDescuento_final() > productoPrecio.get().getDescuento_maximo()) {
             throw new ProductoConDescuentoMayorAlPermitidoException("Se intenta facturar un producto con un descuento mayor al permitido");
+        }
+        if(facturaDetalle.getCantidad()==0){
+            throw new FacturaConCantidadCeroException("Se intenta facturar un producto con cantidad cero");
+        }
+        if(productoPrecio.get().getPrecio_colones()==0){
+            throw new FacturaConPrecioCeroException("Se intenta facturar un producto con precio cero");
         }
         
         Factura_Detalles usuario = MapperUtils.EntityFromDto(facturaDetalle, Factura_Detalles.class);

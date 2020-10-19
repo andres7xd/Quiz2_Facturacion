@@ -9,6 +9,7 @@ import java.util.Optional;
 import org.una.tienda.facturacion.dto.ClienteDTO;
 import org.una.tienda.facturacion.exceptions.ClienteConDireccionException;
 import org.una.tienda.facturacion.exceptions.ClienteConEmailException;
+import org.una.tienda.facturacion.exceptions.ClienteConEstadoInactivoException;
 import org.una.tienda.facturacion.exceptions.ClienteConTelefonoException;
 
 /**
@@ -23,5 +24,5 @@ public interface IClienteService {
 
     public void delete(Long id);
 
-    public Optional<ClienteDTO> update(ClienteDTO clienteDTO, Long id);
+    public Optional<ClienteDTO> update(ClienteDTO clienteDTO, Long id)throws ClienteConEstadoInactivoException;
 }

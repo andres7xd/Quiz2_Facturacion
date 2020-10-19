@@ -24,6 +24,8 @@ import org.una.tienda.facturacion.dto.Producto_PrecioDTO;
 import org.una.tienda.facturacion.exceptions.ClienteConDireccionException;
 import org.una.tienda.facturacion.exceptions.ClienteConEmailException;
 import org.una.tienda.facturacion.exceptions.ClienteConTelefonoException;
+import org.una.tienda.facturacion.exceptions.FacturaConCantidadCeroException;
+import org.una.tienda.facturacion.exceptions.FacturaConPrecioCeroException;
 import org.una.tienda.facturacion.exceptions.ProductoConDescuentoMayorAlPermitidoException;
 
 /**
@@ -52,6 +54,10 @@ public class FacturaDetallesServiceImplementationTest {
     private IFacturaService facturaService;
 
     Factura_DetallesDTO factura_DetallesEjemplo;
+    
+    Factura_DetallesDTO factura_DetallesEjemplo2;
+    
+    Factura_DetallesDTO factura_DetallesEjemplo3;
 
     Factura_DetallesDTO facturaDetallePruebaConExtraDescuento;
 
@@ -59,21 +65,41 @@ public class FacturaDetallesServiceImplementationTest {
 
     ProductoDTO productoEjemplo;
 
+    ProductoDTO productoEjemplo2;
+
+    ProductoDTO productoEjemplo3;
+
     Producto_ExistenciaDTO productoExistenciaPrueba;
 
     Producto_ExistenciaDTO productoExistenciaEjemplo;
+
+    Producto_ExistenciaDTO productoExistenciaEjemplo2;
+
+    Producto_ExistenciaDTO productoExistenciaEjemplo3;
 
     Producto_PrecioDTO productoPrecioPrueba;
 
     Producto_PrecioDTO productoPrecioEjemplo;
 
+    Producto_PrecioDTO productoPrecioEjemplo2;
+
+    Producto_PrecioDTO productoPrecioEjemplo3;
+
     ClienteDTO clientePrueba;
 
     ClienteDTO clienteEjemplo;
 
+    ClienteDTO clienteEjemplo2;
+
+    ClienteDTO clienteEjemplo3;
+
     FacturaDTO facturaPrueba;
 
     FacturaDTO facturaEjemplo;
+
+    FacturaDTO facturaEjemplo2;
+
+    FacturaDTO facturaEjemplo3;
 
     @BeforeEach
     public void setup() throws ClienteConTelefonoException, ClienteConEmailException, ClienteConDireccionException {
@@ -188,9 +214,119 @@ public class FacturaDetallesServiceImplementationTest {
         };
     }
 
+    private void initDataForSeEvitaFacturarUnProductoConPrecioCero() throws ClienteConTelefonoException, ClienteConEmailException, ClienteConDireccionException {
+
+        clienteEjemplo2 = new ClienteDTO() {
+            {
+                setDireccion("San Isidro");
+                setEmail("@@@");
+                setNombre("Luis");
+                setTelefono("1234");
+            }
+        };
+        clienteEjemplo2 = clienteService.create(clienteEjemplo2);
+        facturaEjemplo2 = new FacturaDTO() {
+            {
+                setCaja(21);
+                setDescuento_general(2);
+                setUt_clientes(clienteEjemplo2);
+
+            }
+        };
+        facturaEjemplo2 = facturaService.create(facturaEjemplo2);
+
+        productoEjemplo2 = new ProductoDTO() {
+            {
+                setDescripcion("Producto De Ejemplo");
+                setImpuesto(0.10);
+
+            }
+        };
+        productoEjemplo2 = productoService.create(productoEjemplo2);
+        factura_DetallesEjemplo2 = new Factura_DetallesDTO() {
+            {
+                setCantidad(200);
+                setDescuento_final(10);
+                setUt_facturas(facturaEjemplo2);
+                setUt_productos(productoEjemplo2);
+            }
+        };
+        productoExistenciaEjemplo2 = new Producto_ExistenciaDTO() {
+            {
+                setUt_productos(productoEjemplo2);
+                setCantidad(1);
+            }
+        };
+        productoExistenciaEjemplo2 = productoExistenciaService.create(productoExistenciaEjemplo2);
+        productoPrecioEjemplo2 = new Producto_PrecioDTO() {
+            {
+                setUt_productos(productoEjemplo);
+                setPrecio_colones(0);
+                setDescuento_maximo(20);
+                setDescuento_promocional(2);
+            }
+        };
+        productoPrecioEjemplo2 = productoPrecioService.create(productoPrecioEjemplo2);
+
+    }
+    
+    private void initDataForSeEvitaFacturarUnProductoConCantidadCero() throws ClienteConTelefonoException, ClienteConEmailException, ClienteConDireccionException{
+        clienteEjemplo3 = new ClienteDTO() {
+            {
+                setDireccion("San Isidro");
+                setEmail("@@@");
+                setNombre("Luis");
+                setTelefono("1234");
+            }
+        };
+        clienteEjemplo3 = clienteService.create(clienteEjemplo3);
+        facturaEjemplo3 = new FacturaDTO() {
+            {
+                setCaja(21);
+                setDescuento_general(2);
+                setUt_clientes(clienteEjemplo3);
+
+            }
+        };
+        facturaEjemplo3 = facturaService.create(facturaEjemplo3);
+
+        productoEjemplo3 = new ProductoDTO() {
+            {
+                setDescripcion("Producto De Ejemplo");
+                setImpuesto(0.10);
+
+            }
+        };
+        productoEjemplo3 = productoService.create(productoEjemplo3);
+        factura_DetallesEjemplo3 = new Factura_DetallesDTO() {
+            {
+                setCantidad(0);
+                setDescuento_final(10);
+                setUt_facturas(facturaEjemplo3);
+                setUt_productos(productoEjemplo3);
+            }
+        };
+        productoExistenciaEjemplo3 = new Producto_ExistenciaDTO() {
+            {
+                setUt_productos(productoEjemplo3);
+                setCantidad(1);
+            }
+        };
+        productoExistenciaEjemplo3 = productoExistenciaService.create(productoExistenciaEjemplo3);
+        productoPrecioEjemplo3 = new Producto_PrecioDTO() {
+            {
+                setUt_productos(productoEjemplo);
+                setPrecio_colones(1000);
+                setDescuento_maximo(20);
+                setDescuento_promocional(2);
+            }
+        };
+        productoPrecioEjemplo3 = productoPrecioService.create(productoPrecioEjemplo3);
+    }
+
     @Test
-    public void sePuedeCrearUnaFacturaDetalleCorrectamente() throws ProductoConDescuentoMayorAlPermitidoException {
-        
+    public void sePuedeCrearUnaFacturaDetalleCorrectamente() throws ProductoConDescuentoMayorAlPermitidoException, FacturaConCantidadCeroException, FacturaConPrecioCeroException {
+
         factura_DetallesEjemplo = facturaDetallesService.create(factura_DetallesEjemplo);
 
         Optional<Factura_DetallesDTO> facturaEncontrado = facturaDetallesService.findById(factura_DetallesEjemplo.getId());
@@ -205,10 +341,10 @@ public class FacturaDetallesServiceImplementationTest {
     }
 
     @Test
-    public void sePuedeModificarUnaFacturaDetallesCorrectamente() throws ProductoConDescuentoMayorAlPermitidoException {
-  
+    public void sePuedeModificarUnaFacturaDetallesCorrectamente() throws ProductoConDescuentoMayorAlPermitidoException, FacturaConCantidadCeroException, FacturaConPrecioCeroException {
+
         factura_DetallesEjemplo = facturaDetallesService.create(factura_DetallesEjemplo);
-        
+
         Optional<Factura_DetallesDTO> facturDetails = facturaDetallesService.update(factura_DetallesEjemplo, factura_DetallesEjemplo.getId());
 
         Optional<Factura_DetallesDTO> factura_DetallesEncontrado = facturaDetallesService.findById(factura_DetallesEjemplo.getId());
@@ -220,8 +356,8 @@ public class FacturaDetallesServiceImplementationTest {
         } else {
             fail("No se encontro la información en la BD");
         }
-   }
-    
+    }
+
     @Test
     public void seEvitaFacturarUnProductoConDescuentoMayorAlPermitido() throws ClienteConTelefonoException, ClienteConEmailException, ClienteConDireccionException {
         initDataForSeEvitaFacturarUnProductoConDescuentoMayorAlPermitido();
@@ -232,11 +368,35 @@ public class FacturaDetallesServiceImplementationTest {
                 }
         );
     }
+
+    
+    @Test
+    public void seEvitaFacturarUnProductoConPrecioCero() throws ClienteConTelefonoException, ClienteConEmailException, ClienteConDireccionException {
+        initDataForSeEvitaFacturarUnProductoConPrecioCero();
+
+        assertThrows(FacturaConPrecioCeroException.class,
+                () -> {
+                    facturaDetallesService.create(factura_DetallesEjemplo2);
+                }
+        );
+    }
+    
+    @Test
+    public void seEvitaFacturarUnProductoConCantidadCero() throws ClienteConTelefonoException, ClienteConEmailException, ClienteConDireccionException {
+        initDataForSeEvitaFacturarUnProductoConCantidadCero();
+
+        assertThrows(FacturaConCantidadCeroException.class,
+                () -> {
+                    facturaDetallesService.create(factura_DetallesEjemplo3);
+                }
+        );
+    }
+    
     @Test
     public void sePuedeEliminarUnaFacturaDetallesCorrectamente() throws ProductoConDescuentoMayorAlPermitidoException {
-        
-         try {
-            factura_DetallesEjemplo = facturaDetallesService.create(factura_DetallesEjemplo); 
+
+        try {
+            factura_DetallesEjemplo = facturaDetallesService.create(factura_DetallesEjemplo);
         } catch (Exception e) {
             fail(e);
         }
@@ -252,7 +412,7 @@ public class FacturaDetallesServiceImplementationTest {
             factura_DetallesEjemplo = null;
         }
     }
-    
+
     @AfterEach
     public void tearDown() {
         if (factura_DetallesEjemplo != null) {

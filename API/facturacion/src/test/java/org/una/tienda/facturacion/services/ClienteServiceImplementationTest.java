@@ -6,6 +6,8 @@
 package org.una.tienda.facturacion.services;
 
 import java.util.Optional;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -18,6 +20,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.una.tienda.facturacion.dto.ClienteDTO;
 import org.una.tienda.facturacion.exceptions.ClienteConDireccionException;
 import org.una.tienda.facturacion.exceptions.ClienteConEmailException;
+import org.una.tienda.facturacion.exceptions.ClienteConEstadoInactivoException;
 import org.una.tienda.facturacion.exceptions.ClienteConTelefonoException;
 
 /**
@@ -37,6 +40,8 @@ public class ClienteServiceImplementationTest {
     ClienteDTO clientePrueba2;
 
     ClienteDTO clientePrueba3;
+
+    ClienteDTO clientePrueba4;
 
     @BeforeEach
     public void setup() {
@@ -79,7 +84,32 @@ public class ClienteServiceImplementationTest {
                 setTelefono("123");
             }
         };
+    }
 
+    private void initDataClienteConEstadoInactivo() {
+        clientePrueba4 = new ClienteDTO() {
+            {
+                setDireccion("Pérez");
+                setEmail("@@@");
+                setNombre("Luis");
+                setTelefono("123");
+            }
+        };
+        try {
+            clientePrueba4 = clienteService.create(clientePrueba4);
+            clientePrueba4.setEstado(false);
+            try {
+                clientePrueba4 = clienteService.update(clientePrueba4, clientePrueba4.getIdclientes()).get();
+            } catch (ClienteConEstadoInactivoException ex) {
+                Logger.getLogger(ClienteServiceImplementationTest.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } catch (ClienteConTelefonoException ex) {
+            Logger.getLogger(ClienteServiceImplementationTest.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClienteConEmailException ex) {
+            Logger.getLogger(ClienteServiceImplementationTest.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClienteConDireccionException ex) {
+            Logger.getLogger(ClienteServiceImplementationTest.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     @Test
@@ -98,7 +128,10 @@ public class ClienteServiceImplementationTest {
         }
     }
 
-    public void sePuedeModificarUnClienteCorrectamente() {
+    @Test
+    public void sePuedeModificarUnClienteCorrectamente() throws ClienteConEstadoInactivoException, ClienteConTelefonoException, ClienteConEmailException, ClienteConDireccionException {
+
+        clienteEjemplo = clienteService.create(clienteEjemplo);
 
         Optional<ClienteDTO> client = clienteService.update(clienteEjemplo, clienteEjemplo.getIdclientes());
 
@@ -145,6 +178,18 @@ public class ClienteServiceImplementationTest {
         assertThrows(ClienteConEmailException.class,
                 () -> {
                     clienteService.create(clientePrueba3);
+                }
+        );
+    }
+
+    @Test
+    public void seEvitaCrearUnClienteConEstadoInactivo() {
+
+        initDataClienteConEstadoInactivo();
+
+        assertThrows(ClienteConEstadoInactivoException.class,
+                () -> {
+                    clienteService.update(clientePrueba4, clientePrueba4.getIdclientes());
                 }
         );
     }
