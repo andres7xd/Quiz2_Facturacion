@@ -20,12 +20,13 @@ import lombok.ToString;
 @NoArgsConstructor
 @ToString
 public class ClienteDTO {
-    private long idclientes;
-   private String direccion;
-   private String email;
-   private boolean estado;
-   private Date Fecha_Modificacion;
-   private Date Fecha_Registro;
-   private String nombre;
-   private String telefono;
+
+    private Long idclientes;
+    private String direccion;
+    private String email;
+    private boolean estado;
+    private Date Fecha_Modificacion;
+    private Date Fecha_Registro;
+    private String nombre;
+    private String telefono;
 }

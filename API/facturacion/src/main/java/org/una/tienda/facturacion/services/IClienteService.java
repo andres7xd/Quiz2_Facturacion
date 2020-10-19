@@ -7,6 +7,9 @@ package org.una.tienda.facturacion.services;
 
 import java.util.Optional;
 import org.una.tienda.facturacion.dto.ClienteDTO;
+import org.una.tienda.facturacion.exceptions.ClienteConDireccionException;
+import org.una.tienda.facturacion.exceptions.ClienteConEmailException;
+import org.una.tienda.facturacion.exceptions.ClienteConTelefonoException;
 
 /**
  *
@@ -16,7 +19,7 @@ public interface IClienteService {
 
     public Optional<ClienteDTO> findById(Long id);
 
-    public ClienteDTO create(ClienteDTO clienteDTO);
+    public ClienteDTO create(ClienteDTO clienteDTO)throws ClienteConTelefonoException, ClienteConEmailException, ClienteConDireccionException;
 
     public void delete(Long id);
 

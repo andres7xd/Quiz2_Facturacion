@@ -38,13 +38,9 @@ import lombok.ToString;
 @ToString
 public class Cliente {
     
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "ut_clientes")
-    private List<Factura> factura = new ArrayList<>();
-    
-    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long idclientes;
+    private Long idclientes;
     
     @Column(name = "direccion", length = 100)
     private String direccion;

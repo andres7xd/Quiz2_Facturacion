@@ -49,11 +49,11 @@ public class Factura_Detalles implements Serializable {
     
     @ManyToOne
     @JoinColumn(name = "productos_id")
-    private Factura ut_productos;
+    private Producto ut_productos;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
     @Column(name = "cantidad")
     private double cantidad;

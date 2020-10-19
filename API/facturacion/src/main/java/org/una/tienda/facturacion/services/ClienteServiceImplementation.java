@@ -11,6 +11,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.una.tienda.facturacion.dto.ClienteDTO;
 import org.una.tienda.facturacion.entities.Cliente;
+import org.una.tienda.facturacion.exceptions.ClienteConDireccionException;
+import org.una.tienda.facturacion.exceptions.ClienteConEmailException;
+import org.una.tienda.facturacion.exceptions.ClienteConTelefonoException;
 import org.una.tienda.facturacion.repositories.IClienteRepository;
 import org.una.tienda.facturacion.util.MapperUtils;
 
@@ -20,33 +23,44 @@ import org.una.tienda.facturacion.util.MapperUtils;
  */
 @Service
 public class ClienteServiceImplementation implements IClienteService {
-    
+
     @Autowired
     private IClienteRepository clienteRepository;
 
     private Optional<ClienteDTO> oneToDto(Optional<Cliente> one) {
         if (one.isPresent()) {
-            ClienteDTO clienteDTO = MapperUtils.DtoFromEntity(one.get(),   ClienteDTO.class);
+            ClienteDTO clienteDTO = MapperUtils.DtoFromEntity(one.get(), ClienteDTO.class);
             return Optional.ofNullable(clienteDTO);
         } else {
             return null;
         }
     }
+
     @Override
     @Transactional(readOnly = true)
     public Optional<ClienteDTO> findById(Long id) {
-        return oneToDto(clienteRepository.findById(id));
 
+        return oneToDto(clienteRepository.findById(id));
     }
 
     @Override
     @Transactional
-    public ClienteDTO create(ClienteDTO ClienteDTO) {
+    public ClienteDTO create(ClienteDTO ClienteDTO) throws ClienteConTelefonoException, ClienteConEmailException, ClienteConDireccionException {
+
+        if (ClienteDTO.getTelefono() == null){
+            throw new ClienteConTelefonoException("No se puede crear");
+        }
+        if(ClienteDTO.getEmail() == null) {
+            throw new ClienteConEmailException("No se puede crear");
+        }
+        if(ClienteDTO.getDireccion() == null) {
+            throw new ClienteConDireccionException("No se puede crear");
+        }
         Cliente cliente = MapperUtils.EntityFromDto(ClienteDTO, Cliente.class);
         cliente = clienteRepository.save(cliente);
         return MapperUtils.DtoFromEntity(cliente, ClienteDTO.class);
     }
-    
+
     @Override
     @Transactional
     public Optional<ClienteDTO> update(ClienteDTO clienteDTO, Long id) {

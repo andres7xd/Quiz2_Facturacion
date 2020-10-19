@@ -51,12 +51,9 @@ public class Factura implements Serializable{
     @JoinColumn(name = "cliente_id")
     private Cliente ut_clientes;
     
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "ut_facturas") 
-    private List<Factura_Detalles> factura_Detalles = new ArrayList<>();
-    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
     
     @Column(name = "caja")
     private int caja;

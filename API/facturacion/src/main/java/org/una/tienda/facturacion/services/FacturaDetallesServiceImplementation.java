@@ -45,13 +45,6 @@ public class FacturaDetallesServiceImplementation implements IFacturaDetallesSer
 
     }
 
-//    @Override
-//    @Transactional
-//    public Factura_DetallesDTO create(Factura_DetallesDTO factura_DetallesDTO) {
-//        Factura_Detalles factura_Detalles = MapperUtils.EntityFromDto(factura_DetallesDTO, Factura_Detalles.class);
-//        factura_Detalles = facturaDetallesRepository.save(factura_Detalles);
-//        return MapperUtils.DtoFromEntity(factura_Detalles, Factura_DetallesDTO.class);
-//    }
     @Override
     @Transactional
     public Factura_DetallesDTO create(Factura_DetallesDTO facturaDetalle) throws ProductoConDescuentoMayorAlPermitidoException {
@@ -59,12 +52,12 @@ public class FacturaDetallesServiceImplementation implements IFacturaDetallesSer
         Optional<Producto_PrecioDTO> productoPrecio = productoPrecioService.findById(facturaDetalle.getUt_productos().getIdproducto());
 
         if (productoPrecio.isEmpty()) {
-            //TODO:implementar verificar existencia de asignacion de precios
             return null;
         }
         if (facturaDetalle.getDescuento_final() > productoPrecio.get().getDescuento_maximo()) {
             throw new ProductoConDescuentoMayorAlPermitidoException("Se intenta facturar un producto con un descuento mayor al permitido");
         }
+        
         Factura_Detalles usuario = MapperUtils.EntityFromDto(facturaDetalle, Factura_Detalles.class);
         usuario = facturaDetallesRepository.save(usuario);
         System.out.println(usuario);

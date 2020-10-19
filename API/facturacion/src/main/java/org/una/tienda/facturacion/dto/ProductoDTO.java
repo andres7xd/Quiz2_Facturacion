@@ -21,7 +21,7 @@ import lombok.ToString;
 @ToString
 public class ProductoDTO {
    
-   private long idproducto;
+   private Long idproducto;
    private String descripcion;
    private boolean estado;
    private Date fecha_Modificacion;
