@@ -53,7 +53,7 @@ public class Producto_Precio implements Serializable {
     private double descuento_promocional;
 
     @Column(name = "estado")
-    private byte estado;
+    private boolean estado;
 
     @Column(name = "fecha_registro", updatable = false)
     @Temporal(TemporalType.DATE)
@@ -74,7 +74,7 @@ public class Producto_Precio implements Serializable {
 
     public void prePersist() {
 
-        estado = 1;
+        estado = true;
 
         fechaRegistro = new Date();
 

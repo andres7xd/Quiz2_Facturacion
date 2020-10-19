@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.una.tienda.facturacion.dto.Producto_ExistenciaDTO;
 import org.una.tienda.facturacion.entities.Producto_Existencia;
+import org.una.tienda.facturacion.exceptions.ProductoExistenciaConEstadoInactivoException;
 import org.una.tienda.facturacion.repositories.IProducto_ExistenciaRepository;
 import org.una.tienda.facturacion.util.MapperUtils;
 
@@ -42,6 +43,7 @@ public class Producto_ExitenciaServiceImplementation implements IProducto_Existe
     @Override
     @Transactional
     public Producto_ExistenciaDTO create(Producto_ExistenciaDTO Producto_ExistenciaDTO) {
+        
         Producto_Existencia cliente = MapperUtils.EntityFromDto(Producto_ExistenciaDTO, Producto_Existencia.class);
         cliente = producto_existenciaRepository.save(cliente);
         return MapperUtils.DtoFromEntity(cliente, Producto_ExistenciaDTO.class);
@@ -49,9 +51,13 @@ public class Producto_ExitenciaServiceImplementation implements IProducto_Existe
     
     @Override
     @Transactional
-    public Optional<Producto_ExistenciaDTO> update(Producto_ExistenciaDTO clienteDTO, Long id) {
+    public Optional<Producto_ExistenciaDTO> update(Producto_ExistenciaDTO productoexistenciaDTO, Long id) throws ProductoExistenciaConEstadoInactivoException {
         if (producto_existenciaRepository.findById(id).isPresent()) {
-            Producto_Existencia cliente = MapperUtils.EntityFromDto(clienteDTO, Producto_Existencia.class);
+            
+               if(productoexistenciaDTO.isEstado()== false){
+            throw new ProductoExistenciaConEstadoInactivoException("No se puede modificar");
+        }
+            Producto_Existencia cliente = MapperUtils.EntityFromDto(productoexistenciaDTO, Producto_Existencia.class);
             cliente = producto_existenciaRepository.save(cliente);
             return Optional.ofNullable(MapperUtils.DtoFromEntity(cliente, Producto_ExistenciaDTO.class));
         } else {

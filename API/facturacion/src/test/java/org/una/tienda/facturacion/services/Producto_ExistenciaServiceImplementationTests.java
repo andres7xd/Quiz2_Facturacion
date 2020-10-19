@@ -15,6 +15,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.una.tienda.facturacion.dto.Producto_ExistenciaDTO;
+import org.una.tienda.facturacion.exceptions.ProductoExistenciaConEstadoInactivoException;
 
 /**
  *
@@ -27,6 +28,7 @@ public class Producto_ExistenciaServiceImplementationTests {
     private IProducto_ExistenciaService producto_existenciaService;
 
     Producto_ExistenciaDTO producto_existenciaEjemplo;
+    Producto_ExistenciaDTO producto_existenciaEjemplo2;
     
     @BeforeEach
     public void setup() {
@@ -36,6 +38,18 @@ public class Producto_ExistenciaServiceImplementationTests {
                
             }
         };
+    }
+    
+    private void initDataProductoExistenciaConEstadoInactivo() {
+        
+        producto_existenciaEjemplo2 = new Producto_ExistenciaDTO() {
+            {
+                setCantidad(2);
+               
+            }
+        };
+        producto_existenciaEjemplo2 = producto_existenciaService.create(producto_existenciaEjemplo2);
+        producto_existenciaEjemplo2.setEstado(false);
     }
 
     @Test
@@ -54,7 +68,7 @@ public class Producto_ExistenciaServiceImplementationTests {
         }
     }
 
-    public void sePuedeModificarUnClienteCorrectamente() {
+    public void sePuedeModificarUnClienteCorrectamente() throws ProductoExistenciaConEstadoInactivoException {
 
         Optional<Producto_ExistenciaDTO> Product_existence = producto_existenciaService.update(producto_existenciaEjemplo, producto_existenciaEjemplo.getId());
 

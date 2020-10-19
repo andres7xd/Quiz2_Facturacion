@@ -50,7 +50,7 @@ public class Producto_Existencia  implements Serializable{
 
     @Column
 
-    private byte estado;
+    private boolean estado;
 
     @Column(name = "fecha_registro", updatable = false)
 
@@ -74,7 +74,7 @@ public class Producto_Existencia  implements Serializable{
 
     public void prePersist() {
 
-        estado = 1;
+        estado = true;
         
         fechaRegistro = new Date();
 

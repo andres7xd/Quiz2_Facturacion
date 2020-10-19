@@ -15,6 +15,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.una.tienda.facturacion.dto.ProductoDTO;
+import org.una.tienda.facturacion.exceptions.ProductoPrecioConEstadoInactivoException;
 
 /**
  *
@@ -54,7 +55,7 @@ public class ProductoServiceImplementationTests {
         }
     }
 
-    public void sePuedeModificarUnProductoCorrectamente() {
+    public void sePuedeModificarUnProductoCorrectamente() throws ProductoPrecioConEstadoInactivoException {
 
         Optional<ProductoDTO> product = productoService.update(productoEjemplo, productoEjemplo.getIdproducto());
 

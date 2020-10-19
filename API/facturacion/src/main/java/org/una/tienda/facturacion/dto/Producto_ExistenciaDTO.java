@@ -23,7 +23,7 @@ public class Producto_ExistenciaDTO {
     
     private Long id; 
     private double cantidad;
-    private byte estado; 
+    private boolean estado; 
     private Date fechaRegistro; 
     private Date fechaModificacion;
     private ProductoDTO ut_productos;
